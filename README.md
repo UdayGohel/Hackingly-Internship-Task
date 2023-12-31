@@ -28,14 +28,7 @@ Express (Web framework)
 <br>
 React Js
 
-## Getting Started
-
-1)git clone https://github.com/UdayGohel/Task.git
-2)cd wikipedia
-npm install
-3)npm start 4) cd client 5) npm start
-
-# Wikipedia Philosophy Loop Detector
+## Getting Started to Wikipedia Philosophy Loop Detector
 
 ## Prerequisites
 

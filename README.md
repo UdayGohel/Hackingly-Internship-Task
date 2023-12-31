@@ -22,11 +22,10 @@ The Wikipedia Philosophy Loop Detector is a web application/API designed to expl
 
 ## Built With
 
-Node.js
-<br>
-Express (Web framework)
-<br>
-React Js
+- **Frontend:** React.js
+- **Backend:** Node.js, Express.js
+- **Parsing:** Cheerio library for HTML parsing
+- **HTTP Requests:** Fetch API on the frontend, node-fetch on the backend
 
 ## Getting Started to Wikipedia Philosophy Loop Detector
 

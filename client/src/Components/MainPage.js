@@ -80,27 +80,39 @@ const MainPage = () => {
         )}
       </Formik>
 
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center  bg-white">
         {error !== "" && <span className="text-red-600">{error}</span>}
         {data && data.path && (
-          <div className="mt-4 p-4 bg-white shadow-md rounded ">
-            <h2 className="text-lg font-semibold mb-2">
+          <div className="mt-4 p-6 bg-white shadow-md rounded-lg w-full max-w-xl overflow-x-auto">
+            <h2 className="text-xl font-semibold mb-4">
               Total Paths: {data.path.length}
             </h2>
-            <h2 className="text-lg font-semibold mb-2">Paths To Phylosophy</h2>
-            <div>
-              {data.path.map((item, index) => (
-                <a
-                  key={index}
-                  href={item}
-                  className="text-blue-500 hover:underline cursor-pointer block"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span className="text-black">Path {index} : </span> {item}
-                </a>
-              ))}
-            </div>
+            <h2 className="text-xl font-semibold mb-4">Paths To Philosophy</h2>
+            <table className="w-full">
+              <thead>
+                <tr>
+                  <th className="text-left">Path Number</th>
+                  <th className="text-left">Path URL</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.path.map((item, index) => (
+                  <tr key={index}>
+                    <td className="border-b px-4 py-2">{index + 1}</td>
+                    <td className="border-b px-4 py-2">
+                      <a
+                        href={item}
+                        className="text-blue-500 hover:underline cursor-pointer"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {item}
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>

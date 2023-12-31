@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-
-const validationSchema = Yup.object({
-  url: Yup.string().required("URL is required").url("Invalid URL format"),
-});
+import { validationSchema } from "../schema";
 const MainPage = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");

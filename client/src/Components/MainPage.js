@@ -3,10 +3,11 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object({
-  url: Yup.string().required("URL is required").url("Invalid URL format"), // Built-in URL validation
+  url: Yup.string().required("URL is required").url("Invalid URL format"),
 });
 const MainPage = () => {
   const [data, setData] = useState([]);
+  const [error, setError] = useState("");
   const submitHandler = (values, { setSubmitting }) => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -25,7 +26,11 @@ const MainPage = () => {
     fetch("http://localhost:8000/getphilosophypage", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        setData(result);
+        if (result.error) {
+          setError(result.error);
+        } else {
+          setData(result);
+        }
       })
       .catch((error) => console.log("error", error));
 
@@ -80,22 +85,23 @@ const MainPage = () => {
       </Formik>
 
       <div className="flex items-center justify-center">
+        {error !== "" && <span className="text-red-600">{error}</span>}
         {data && data.path && (
-          <div className="mt-4 p-4 bg-white shadow-md rounded text-center">
+          <div className="mt-4 p-4 bg-white shadow-md rounded ">
             <h2 className="text-lg font-semibold mb-2">
               Total Paths: {data.path.length}
             </h2>
-            {/* <h2 className="text-lg font-semibold mb-2">Paths:</h2> */}
+            <h2 className="text-lg font-semibold mb-2">Paths To Phylosophy</h2>
             <div>
               {data.path.map((item, index) => (
                 <a
                   key={index}
-                  href={item} // Assuming `item` contains the URL
+                  href={item}
                   className="text-blue-500 hover:underline cursor-pointer block"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {item}
+                  <span className="text-black">Path {index} : </span> {item}
                 </a>
               ))}
             </div>

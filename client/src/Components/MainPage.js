@@ -4,10 +4,16 @@ import { validationSchema } from "../schema";
 const MainPage = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
+  // This is for Loading check
+  const [loading, setLoading] = useState(false);
+
+  // I add setSubmitting to stop multiple api request and through this i disable button
   const submitHandler = (values, { setSubmitting }) => {
+    setLoading(true);
+
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-
+    //  API Call
     var raw = JSON.stringify({
       url: values.url,
     });
@@ -22,21 +28,30 @@ const MainPage = () => {
     fetch("http://localhost:8000/getphilosophypage", requestOptions)
       .then((response) => response.json())
       .then((result) => {
+        // To set Data and Error in This
         if (result.error) {
           setError(result.error);
         } else {
           setData(result);
         }
       })
-      .catch((error) => console.log("error", error));
-
-    setSubmitting(false);
+      .catch((error) => {
+        console.log("error", error);
+        setError("An error occurred");
+      })
+      .finally(() => {
+        // I added Finally call to after getting response or error and to set loading state
+        setLoading(false);
+        setSubmitting(false);
+      });
   };
 
+  // Add formik to Handle the form
   return (
     <>
       <Formik
         initialValues={{ url: "" }}
+        // Add Validation schema Through Yup Library
         validationSchema={validationSchema}
         onSubmit={submitHandler}
       >
@@ -74,12 +89,13 @@ const MainPage = () => {
                   : "hover:bg-blue-700"
               }`}
             >
-              Submit
+              Find paths to Philosophy
             </button>
           </Form>
         )}
       </Formik>
-
+      {/* Check Loading State and According to show that */}
+      {loading && <div className="text-center">Loading...</div>}
       <div className="flex items-center justify-center  bg-white">
         {error !== "" && <span className="text-red-600">{error}</span>}
         {data && data.path && (
@@ -96,6 +112,7 @@ const MainPage = () => {
                 </tr>
               </thead>
               <tbody>
+                {/* Map Data according to response */}
                 {data.path.map((item, index) => (
                   <tr key={index}>
                     <td className="border-b px-4 py-2">{index + 1}</td>
